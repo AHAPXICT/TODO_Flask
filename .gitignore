@@ -1,1 +1,2 @@
 /flask-server/venv/
+/flask-server/db_connection_config.py
