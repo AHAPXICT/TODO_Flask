@@ -1,2 +1,4 @@
 /flask-server/venv/
 /flask-server/db_connection_config.py
+/.idea
+/flask-server/.idea
