@@ -3,6 +3,9 @@ from todo import db
 from sqlalchemy.orm import validates
 
 
+from .utils import slug_generator
+
+
 class Todo(db.Model):
     """Todo model."""
 
@@ -13,7 +16,7 @@ class Todo(db.Model):
     body = db.Column(db.Text, default='', nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    # slug = db.Column(db.String, default='', unique=True, nullable=False)
+    slug = db.Column(db.String, default=slug_generator(title), unique=True, nullable=False)
 
     @validates('created_at')
     def validates_created_at(self, key, value):
@@ -22,22 +25,18 @@ class Todo(db.Model):
 
         return value
 
-    # @validates('created_at')
-    # def validates_created_at(self, key, value):
-    #     if self.created_at:
-    #         raise ValueError("Created_at cannot be modified.")
-    #
-    #     return value
+    @validates('slug')
+    def validates_created_at(self, key, value):
+        if self.slug or value:
+            raise ValueError("Slug cannot be modified.")
+
+        return value
 
     @validates('updated_at')
     def validates_updated_at(self, key, value):
         if not isinstance(value, datetime):
             raise ValueError("Value for updated_at must be a datetime.")
         return value
-
-    # def __init__(self, title, body=''):
-    #     self.title = title
-    #     self.body = body
 
     def __repr__(self):
         return f'<Todo {self.id}, {self.title}>'
