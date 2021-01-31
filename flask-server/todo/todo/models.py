@@ -1,6 +1,7 @@
 from datetime import datetime
 from todo import db
 from sqlalchemy.orm import validates
+from sqlalchemy.sql import func
 
 
 from .utils import slug_generator
@@ -14,11 +15,10 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(80), index=True, nullable=False)
     body = db.Column(db.Text, default='', nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    slug = db.Column(db.String(255), default=slug_generator(title),
-                     server_onupdate=db.func.now(),
-                     unique=True, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=func.now(), nullable=False)
+    updated_at = db.Column(db.DateTime(timezone=True), default=func.now(),
+                           onupdate=func.now(), nullable=False)
+    slug = db.Column(db.String(255), default=slug_generator(title), unique=True, nullable=False)
 
     @validates('created_at')
     def validates_created_at(self, key, value):
