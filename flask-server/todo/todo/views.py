@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 
 
+from ..common.common import pretty_todo_response
 from .models import Todo
 from sqlalchemy.exc import SQLAlchemyError
 from todo import db
@@ -22,13 +23,15 @@ class TodoListResource(Resource):
             data = []
 
             for todo in todos:
-                data.append({
-                    'slug': todo.slug,
-                    'title': todo.title,
-                    'body': todo.body,
-                    'created_at': str(todo.created_at),
-                    'is_complete': todo.is_complete
-                })
+                data.append(
+                    pretty_todo_response(
+                        title=todo.title,
+                        body=todo.body,
+                        slug=todo.slug,
+                        created_at=todo.created_at,
+                        is_complete=todo.is_complete
+                    )
+                )
 
             return data, 200
 
@@ -55,17 +58,35 @@ class TodoResource(Resource):
 
     def get(self, todo_slug):
         try:
-            todo = Todo.query.filter_by(slug=todo_slug).first()
+            if Todo.query.filter_by(slug=todo_slug).first():
+                todo = Todo.query.filter_by(slug=todo_slug).first()
+            else:
+                return 'Not found.', 404
         except SQLAlchemyError as e:
             db.session.rollback()
             return 'Database error.', 500
         else:
-            response = {
-                'slug': todo.slug,
-                'title': todo.title,
-                'body': todo.body,
-                'created_at': str(todo.created_at),
-                'is_complete': todo.is_complete
-            }
+            response = pretty_todo_response(
+                title=todo.title,
+                body=todo.body,
+                slug=todo.slug,
+                created_at=todo.created_at,
+                is_complete=todo.is_complete
+            )
             return response, 200
 
+    def put(self, todo_slug):
+        pass
+
+    def delete(self, todo_slug):
+        try:
+            if Todo.query.filter_by(slug=todo_slug).first():
+                Todo.query.filter_by(slug=todo_slug).delete()
+                db.session.commit()
+            else:
+                return 'Not found.', 404
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            return 'Database error.', 500
+        else:
+            return 'Deleted.', 200
