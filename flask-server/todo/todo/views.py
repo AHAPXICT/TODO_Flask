@@ -39,7 +39,6 @@ class TodoListResource(Resource):
         args = self.parser.parse_args()
 
         todo = Todo(title=args['title'], body=args['body'])
-        print(args)
 
         try:
             db.session.add(todo)
@@ -49,3 +48,24 @@ class TodoListResource(Resource):
             return 'Database error.', 500
         else:
             return 'Done', 201
+
+
+class TodoResource(Resource):
+    """Todo item."""
+
+    def get(self, todo_slug):
+        try:
+            todo = Todo.query.filter_by(slug=todo_slug).first()
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            return 'Database error.', 500
+        else:
+            response = {
+                'slug': todo.slug,
+                'title': todo.title,
+                'body': todo.body,
+                'created_at': str(todo.created_at),
+                'is_complete': todo.is_complete
+            }
+            return response, 200
+
