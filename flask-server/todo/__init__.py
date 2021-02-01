@@ -23,6 +23,4 @@ def create_app(config_name: str):
 
     register_blueprints(app)
 
-    print(app.blueprints.get('api_v1'))
-
     return app
