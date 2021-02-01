@@ -19,6 +19,14 @@ class Todo(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), default=func.now(),
                            onupdate=func.now(), nullable=False)
     slug = db.Column(db.String(255), default=slug_generator(title), unique=True, nullable=False)
+    is_complete = db.Column(db.Boolean, default=False, nullable=False)
+
+    @validates('is_complete')
+    def validates_is_complete(self, key, value):
+        if not isinstance(value, bool):
+            raise ValueError("is_complete must be boolean.")
+
+        return value
 
     @validates('created_at')
     def validates_created_at(self, key, value):
