@@ -8,10 +8,10 @@ from config import config
 db = SQLAlchemy()
 
 
-def register_blueprints(app: Flask):
-    from .todo import todo
+def register_blueprints(app):
+    from .api import api_v1
 
-    app.register_blueprint(todo, url_prefix='/todo')
+    app.register_blueprint(api_v1, url_prefix='/api')
 
 
 def create_app(config_name: str):
@@ -22,5 +22,7 @@ def create_app(config_name: str):
     db.init_app(app)
 
     register_blueprints(app)
+
+    print(app.blueprints.get('api_v1'))
 
     return app

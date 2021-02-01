@@ -1,6 +1,10 @@
-from todo.todo import todo
+from flask_restful import Resource
 
 
-@todo.route('/')
-def index():
-    return '<h1>Todo app</h1>'
+from ..common import pretty_result
+
+
+class TodoListResource(Resource):
+
+    def get(self):
+        return "<h1>Api</h1>"
