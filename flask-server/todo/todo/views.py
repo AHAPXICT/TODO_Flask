@@ -38,7 +38,7 @@ class TodoListResource(Resource):
     def post(self):
 
         self.parser.add_argument('title', type=str, help='Title for todo, must be set.', required=True)
-        self.parser.add_argument('body', type=str, help='body for todo, can be empty.')
+        self.parser.add_argument('body', type=str, help='Body for todo, can be empty.')
         args = self.parser.parse_args()
 
         todo = Todo(title=args['title'], body=args['body'])
@@ -55,6 +55,9 @@ class TodoListResource(Resource):
 
 class TodoResource(Resource):
     """Todo item."""
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
 
     def get(self, todo_slug):
         try:
@@ -76,6 +79,28 @@ class TodoResource(Resource):
             return response, 200
 
     def put(self, todo_slug):
+        try:
+            if Todo.query.filter_by(slug=todo_slug).first():
+                self.parser.add_argument('title', type=str, help='Title for todo.')
+                self.parser.add_argument('body', type=str, help='Body for todo, can be empty.')
+                self.parser.add_argument('is_complete', type=bool, help='Whether the task is completed.')
+
+                args = self.parser.parse_args()
+
+                todo = Todo.query.filter_by(slug=todo_slug).first()
+
+                todo.title = args['title']
+                todo.body = args['body']
+                todo.is_complete = args['is_complete']
+
+                db.session.commit()
+            else:
+                return 'Not found.', 404
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            return 'Database error.', 500
+        else:
+            return 'Updated.', 201
         pass
 
     def delete(self, todo_slug):
