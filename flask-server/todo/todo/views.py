@@ -15,7 +15,7 @@ class TodoListResource(Resource):
         self.parser = reqparse.RequestParser()
 
     @staticmethod
-    def get(self):
+    def get():
         try:
             todos = Todo.query.all()
         except SQLAlchemyError as e:
@@ -62,7 +62,7 @@ class TodoResource(Resource):
         self.parser = reqparse.RequestParser()
 
     @staticmethod
-    def get(self, todo_slug):
+    def get(todo_slug):
 
         if not Todo.query.filter_by(slug=todo_slug).first():
             abort(404)
@@ -109,7 +109,7 @@ class TodoResource(Resource):
         pass
 
     @staticmethod
-    def delete(self, todo_slug):
+    def delete(todo_slug):
 
         if not Todo.query.filter_by(slug=todo_slug).first():
             abort(404)
