@@ -1,0 +1,26 @@
+.todoItem {
+    text-align: center;
+    /* background-color: blue; */
+    margin-left: 30%;
+    margin-right: 30%;
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.todoItem--title__done {
+    text-decoration: line-through;
+}
+
+.todoItem--title {
+    /* background-color: green; */
+    font-size: 20px;
+}
+
+.todoItem--body {
+    /* background-color: brown; */
+}
+
+.todoItem--checkbox {
+    margin: 10px;
+}
