@@ -1,7 +1,13 @@
 import React from 'react';
 
+import './style.css';
+
 const Title = () => {
-    return <h1>Title</h1>;
+    return (
+        <div className="header">
+            <h1>Todo list</h1>
+        </div>
+    );
 };
 
 export default Title;
