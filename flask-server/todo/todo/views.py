@@ -83,23 +83,24 @@ class TodoResource(Resource):
             return response, 200
 
     def put(self, todo_slug):
+
+        if not Todo.query.filter_by(slug=todo_slug).first():
+            abort(404)
+
         try:
-            if Todo.query.filter_by(slug=todo_slug).first():
-                self.parser.add_argument('title', type=str, help='Title for todo.')
-                self.parser.add_argument('body', type=str, help='Body for todo, can be empty.')
-                self.parser.add_argument('is_complete', type=bool, help='Whether the task is completed.')
+            self.parser.add_argument('title', type=str, help='Title for todo.')
+            self.parser.add_argument('body', type=str, help='Body for todo, can be empty.')
+            self.parser.add_argument('is_complete', type=bool, help='Whether the task is completed.')
 
-                args = self.parser.parse_args()
+            args = self.parser.parse_args()
 
-                todo = Todo.query.filter_by(slug=todo_slug).first()
+            todo = Todo.query.filter_by(slug=todo_slug).first()
 
-                todo.title = args['title']
-                todo.body = args['body']
-                todo.is_complete = args['is_complete']
+            todo.title = args['title']
+            todo.body = args['body']
+            todo.is_complete = args['is_complete']
 
-                db.session.commit()
-            else:
-                return 'Not found.', 404
+            db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
             return 'Database error.', 500
@@ -109,12 +110,13 @@ class TodoResource(Resource):
 
     @staticmethod
     def delete(self, todo_slug):
+
+        if not Todo.query.filter_by(slug=todo_slug).first():
+            abort(404)
+
         try:
-            if Todo.query.filter_by(slug=todo_slug).first():
-                Todo.query.filter_by(slug=todo_slug).delete()
-                db.session.commit()
-            else:
-                return 'Not found.', 404
+            Todo.query.filter_by(slug=todo_slug).delete()
+            db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
             return 'Database error.', 500
