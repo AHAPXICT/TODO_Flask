@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask import abort
 
 
 from ..common.common import pretty_todo_response
@@ -13,6 +14,7 @@ class TodoListResource(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
 
+    @staticmethod
     def get(self):
         try:
             todos = Todo.query.all()
@@ -50,7 +52,7 @@ class TodoListResource(Resource):
             db.session.rollback()
             return 'Database error.', 500
         else:
-            return 'Done', 201
+            return 'Done.', 201
 
 
 class TodoResource(Resource):
@@ -59,12 +61,14 @@ class TodoResource(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
 
+    @staticmethod
     def get(self, todo_slug):
+
+        if not Todo.query.filter_by(slug=todo_slug).first():
+            abort(404)
+
         try:
-            if Todo.query.filter_by(slug=todo_slug).first():
-                todo = Todo.query.filter_by(slug=todo_slug).first()
-            else:
-                return 'Not found.', 404
+            todo = Todo.query.filter_by(slug=todo_slug).first()
         except SQLAlchemyError as e:
             db.session.rollback()
             return 'Database error.', 500
@@ -103,6 +107,7 @@ class TodoResource(Resource):
             return 'Updated.', 201
         pass
 
+    @staticmethod
     def delete(self, todo_slug):
         try:
             if Todo.query.filter_by(slug=todo_slug).first():
