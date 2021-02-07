@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ButtonsGroup from './ButtonsGroup/ButtonsGroup';
+import Button from '../../Button/Button';
 
 import './style.css';
 
@@ -23,7 +23,9 @@ const TodoItem = ({ title, body, is_complete }) => {
                     </div>
                 </div>
                 <hr />
-                <ButtonsGroup />
+                <Button mode="secondary">Show</Button>
+                <Button mode="warning">Edit</Button>
+                <Button mode="danger">Delete</Button>
             </div>
 
             <p className="todoItem--body">{body}</p>

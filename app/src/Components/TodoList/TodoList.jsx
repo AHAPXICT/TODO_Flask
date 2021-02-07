@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TodoItem from './TodoItem/TodoItem';
+import Button from '../Button/Button';
 
 import './style.css';
 
@@ -8,7 +9,7 @@ const BaseUrl = 'http://127.0.0.1:5000/api/todos';
 
 class TodoList extends React.Component {
     state = {
-        tasks: [],
+        tasks: [{ title: 'title1' }],
     };
 
     componentDidMount() {
@@ -28,7 +29,7 @@ class TodoList extends React.Component {
     render() {
         return (
             <div className="todoList">
-                <button>Add</button>
+                <Button mode="primary">Add</Button>
                 {this.state.tasks.map((task) => (
                     <TodoItem
                         title={task.title}

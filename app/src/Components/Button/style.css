@@ -1,0 +1,32 @@
+.button {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    padding-left: 15px;
+    padding-right: 15px;
+
+    border-style: none;
+
+    font-size: large;
+
+    color: white;
+}
+
+.button--primary {
+    background-color: rgb(133, 238, 245);
+}
+
+.button--danger {
+    background-color: rgb(223, 54, 54);
+}
+
+.button--warning {
+    background-color: rgb(223, 144, 54);
+}
+
+.button--secondary {
+    background-color: gray;
+}
