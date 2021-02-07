@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 
 import TodoItem from './TodoItem/TodoItem';
 
@@ -17,9 +16,13 @@ class TodoList extends React.Component {
     }
 
     fetchTasksList = () => {
-        axios.get(BaseUrl).then((res) => {
-            this.setState({ tasks: res.data });
-        });
+        fetch(BaseUrl)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                this.setState({ tasks: data });
+            });
     };
 
     render() {

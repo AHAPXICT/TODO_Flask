@@ -12,20 +12,20 @@ const TodoItem = ({ title, body, is_complete }) => {
     return (
         <>
             <div className="todoItem">
-                <div>
+                <div className="container">
                     <input
                         className="todoItem--checkbox"
                         type="checkbox"
                         defaultChecked={is_complete}
                     ></input>
+                    <div>
+                        <p className={listTitleClasses}>{title}</p>
+                    </div>
                 </div>
-
+                <hr />
                 <ButtonsGroup />
-
-                <div className="container">
-                    <p className={listTitleClasses}>{title}</p>
-                </div>
             </div>
+
             <p className="todoItem--body">{body}</p>
         </>
     );
