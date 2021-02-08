@@ -4,13 +4,17 @@ import classnames from 'classnames';
 
 import './style.css';
 
-const Button = ({ children, mode, className }) => {
+const Button = ({ children, mode, className, ...props }) => {
     const classNames = classnames('button', {
         [`button--${mode}`]: Boolean(mode),
         className,
     });
 
-    return <button className={classNames}>{children}</button>;
+    return (
+        <button className={classNames} {...props}>
+            {children}
+        </button>
+    );
 };
 
 Button.defaultProps = {

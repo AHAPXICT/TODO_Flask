@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display&display=swap');
+
 .todoItem {
     text-align: center;
     /* background-color: blue; */
@@ -11,11 +13,13 @@
 
 .todoItem--title__done {
     text-decoration: line-through;
+    font-family: 'Big Shoulders Display', cursive;
 }
 
 .todoItem--title {
     /* background-color: green; */
     font-size: 20px;
+    font-family: 'Big Shoulders Display', cursive;
 }
 
 .todoItem--body {

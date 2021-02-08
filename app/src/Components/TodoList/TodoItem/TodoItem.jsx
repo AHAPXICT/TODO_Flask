@@ -2,12 +2,25 @@ import React from 'react';
 
 import Button from '../../Button/Button';
 
+import { TODO_DELETE_URL } from '../../../urls';
+
 import './style.css';
 
-const TodoItem = ({ title, body, is_complete }) => {
+const TodoItem = ({ title, body, is_complete, slug, deleteTodoAction }) => {
     const listTitleClasses = `todoItem--title ${
         is_complete ? 'todoItem--title__done' : ''
     }`;
+
+    const deleteTodo = (todo_slug) => {
+        fetch(`${TODO_DELETE_URL}/${todo_slug}`, {
+            method: 'DELETE',
+        }).then((response) => {
+            if (response.ok) {
+                deleteTodoAction(todo_slug);
+            }
+        });
+        console.log(todo_slug);
+    };
 
     return (
         <>
@@ -25,7 +38,9 @@ const TodoItem = ({ title, body, is_complete }) => {
                 <hr />
                 <Button mode="secondary">Show</Button>
                 <Button mode="warning">Edit</Button>
-                <Button mode="danger">Delete</Button>
+                <Button onClick={() => deleteTodo(slug)} mode="danger">
+                    Delete
+                </Button>
             </div>
 
             <p className="todoItem--body">{body}</p>
