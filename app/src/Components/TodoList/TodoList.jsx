@@ -16,6 +16,7 @@ import {
     updateTitleInput,
     updateBodyInput,
     toggleModalDialogForTodo,
+    toggleBodyHide,
 } from '../../store/Todo/actions';
 
 import './style.css';
@@ -124,6 +125,8 @@ class TodoList extends React.Component {
                                 }
                                 input_fields={this.props.input_fields}
                                 fetchTasksList={this.fetchTasksList}
+                                toggle_body_hide={this.props.toggle_body_hide}
+                                toggle_body_show_state={task.toggle_body_show}
                             />
                         ))}
                     </>
@@ -151,6 +154,7 @@ const mapDispatch = {
     update_title_input: updateTitleInput,
     update_body_input: updateBodyInput,
     toggle_modal_dialog_for_todo: toggleModalDialogForTodo,
+    toggle_body_hide: toggleBodyHide,
 };
 
 const connector = connect(mapState, mapDispatch);

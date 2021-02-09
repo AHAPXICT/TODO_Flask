@@ -19,6 +19,8 @@ const TodoItem = ({
     update_body_input,
     input_fields,
     fetchTasksList,
+    toggle_body_hide,
+    toggle_body_show_state,
 }) => {
     const listTitleClasses = `todoItem--title ${
         is_complete ? 'todoItem--title__done' : ''
@@ -82,6 +84,10 @@ const TodoItem = ({
         });
     };
 
+    const toggle_body_visible = (slug) => {
+        toggle_body_hide(slug);
+    };
+
     return (
         <>
             <TodoModal
@@ -107,7 +113,13 @@ const TodoItem = ({
                     </div>
                 </div>
                 <hr />
-                <Button mode="secondary">Show</Button>
+                <Button
+                    onClick={() => toggle_body_visible(slug)}
+                    mode="secondary"
+                    disabled={!Boolean(body)}
+                >
+                    {toggle_body_show_state ? 'Hide' : 'Show'}
+                </Button>
                 <Button onClick={() => showModalDialog()} mode="warning">
                     Edit
                 </Button>
@@ -116,7 +128,11 @@ const TodoItem = ({
                 </Button>
             </div>
 
-            <p className="todoItem--body">{body}</p>
+            {toggle_body_show_state ? (
+                <p className="todoItem--body">{body}</p>
+            ) : (
+                ''
+            )}
         </>
     );
 };

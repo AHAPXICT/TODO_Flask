@@ -14,6 +14,14 @@
     color: white;
 }
 
+.button:disabled {
+    opacity: 0.1;
+}
+
+.button:hover:disabled {
+    opacity: 0.1;
+}
+
 .button:hover {
     opacity: 0.7;
 }

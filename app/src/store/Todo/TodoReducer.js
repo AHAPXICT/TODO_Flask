@@ -6,6 +6,7 @@ import {
     UPDATE_TITLE_INPUT,
     UPDATE_BODY_INPUT,
     TOGGLE_MODAL_DIALOG_FOR_TODO,
+    TOGGLE_BODY_HIDE,
 } from './actions';
 
 const initialState = {
@@ -79,6 +80,21 @@ const todoReducer = (state = initialState, action) => {
             return {
                 ...state,
                 todos: updatedTodos,
+            };
+        case TOGGLE_BODY_HIDE:
+            let updatedBodyVisible = [];
+
+            updatedBodyVisible = state.todos.map((todo) => {
+                var updated_todo = { ...todo };
+                if (todo.slug === action.payload) {
+                    updated_todo.toggle_body_show = !updated_todo.toggle_body_show;
+                }
+                return updated_todo;
+            });
+
+            return {
+                ...state,
+                todos: updatedBodyVisible,
             };
         default:
             return state;

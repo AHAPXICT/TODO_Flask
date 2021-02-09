@@ -5,6 +5,14 @@ export const TOGGLE_MODAL_DIALOG = 'TODO/TOGGLE_MODAL_DIALOG';
 export const UPDATE_TITLE_INPUT = 'TODO/UPDATE_TITLE_INPUT';
 export const UPDATE_BODY_INPUT = 'TODO/UPDATE_BODY_INPUT';
 export const TOGGLE_MODAL_DIALOG_FOR_TODO = 'TODO/TOGGLE_MODAL_DIALOG_FOR_TODO';
+export const TOGGLE_BODY_HIDE = 'TODO/TOGGLE_BODY_HIDE';
+
+export const toggleBodyHide = (slug) => {
+    return {
+        type: TOGGLE_BODY_HIDE,
+        payload: slug,
+    };
+};
 
 export const addTodos = (todos) => {
     return {
