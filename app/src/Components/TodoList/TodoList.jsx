@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import TodoItem from './TodoItem/TodoItem';
 import Button from '../Button/Button';
 import Loader from '../Loader/Loader';
+import TodoModal from '../ModalDialog/TodoModalDialog';
 
 import { TODO_LIST_URL } from '../../urls';
 
@@ -11,6 +12,7 @@ import {
     addTodos,
     setErrorMessage,
     deleteTodo,
+    toggleModalDialog,
 } from '../../store/Todo/actions';
 
 import './style.css';
@@ -30,8 +32,12 @@ class TodoList extends React.Component {
                 }
             })
             .then((data) => {
-                this.props.add_todos(data);
+                this.props.add_todos(data.reverse());
             });
+    };
+
+    showModalDialog = () => {
+        this.props.toggle_modal_dialog();
     };
 
     render() {
@@ -41,7 +47,22 @@ class TodoList extends React.Component {
                     <Loader />
                 ) : (
                     <>
-                        <Button mode="primary">Add</Button>
+                        <TodoModal
+                            show={this.props.toggle_modal_dialog_state}
+                            handleClose={() => this.props.toggle_modal_dialog()}
+                        />
+
+                        <Button
+                            mode="primary"
+                            onClick={() => this.showModalDialog()}
+                        >
+                            Add
+                        </Button>
+
+                        <br />
+                        <br />
+                        <br />
+
                         {this.props.todos.map((task) => (
                             <TodoItem
                                 title={task.title}
@@ -64,6 +85,7 @@ const mapState = (state) => {
         todos: state.todo.todos,
         error_message: state.todo.server_error_message,
         is_loading: state.todo.is_loading,
+        toggle_modal_dialog_state: state.todo.toggle_modal_dialog,
     };
 };
 
@@ -71,6 +93,7 @@ const mapDispatch = {
     add_todos: addTodos,
     set_error_message: setErrorMessage,
     deleteTodoAction: deleteTodo,
+    toggle_modal_dialog: toggleModalDialog,
 };
 
 const connector = connect(mapState, mapDispatch);

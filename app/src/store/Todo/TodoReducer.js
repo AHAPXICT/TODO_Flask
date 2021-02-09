@@ -1,12 +1,17 @@
-import { SET_TODOS, SET_SERVER_ERROR_MESSAGE, DELETE_TODO } from './actions';
+import {
+    SET_TODOS,
+    SET_SERVER_ERROR_MESSAGE,
+    DELETE_TODO,
+    TOGGLE_MODAL_DIALOG,
+} from './actions';
 
 const initialState = {
     todos: [],
     is_loading: true,
     server_error_message: '',
+    toggle_modal_dialog: false,
     inputs: {
         title: '',
-        is_comlete: false,
         body: '',
     },
 };
@@ -34,6 +39,12 @@ const todoReducer = (state = initialState, action) => {
             return {
                 ...state,
                 todos: newTodos,
+            };
+        case TOGGLE_MODAL_DIALOG:
+            const newToggleState = !state.toggle_modal_dialog;
+            return {
+                ...state,
+                toggle_modal_dialog: newToggleState,
             };
         default:
             return state;

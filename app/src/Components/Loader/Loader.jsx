@@ -4,7 +4,7 @@ import './style.css';
 
 const Loader = () => {
     return (
-        <div>
+        <div className="loader__padding">
             <div className="overlay-loader">
                 <div className="loader">
                     <div></div>
