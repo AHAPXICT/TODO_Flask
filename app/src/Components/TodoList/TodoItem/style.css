@@ -2,7 +2,6 @@
 
 .todoItem {
     text-align: center;
-    /* background-color: blue; */
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -17,13 +16,12 @@
 }
 
 .todoItem--title {
-    /* background-color: green; */
+    padding-top: 20px;
     font-size: 20px;
     font-family: 'Big Shoulders Display', cursive;
 }
 
 .todoItem--body {
-    /* background-color: brown; */
 }
 
 input[type='checkbox'] {

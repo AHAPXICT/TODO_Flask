@@ -46,10 +46,6 @@ class TodoList extends React.Component {
             body: todo.body,
         };
 
-        debugger;
-        JSON.stringify(newTodo);
-        debugger;
-
         fetch(TODO_ADD_URL, {
             method: 'POST',
             headers: {
