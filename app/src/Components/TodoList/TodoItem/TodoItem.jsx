@@ -18,7 +18,6 @@ const TodoItem = ({
     update_title_input,
     update_body_input,
     input_fields,
-    update_todo,
     fetchTasksList,
 }) => {
     const listTitleClasses = `todoItem--title ${
@@ -63,6 +62,26 @@ const TodoItem = ({
         });
     };
 
+    const toggleIsComplete = (todo_slug, is_complete) => {
+        const new_todo = {
+            title: title,
+            body: body,
+            is_complete: !is_complete,
+        };
+
+        fetch(`${TODO_UPDATE_URL}/${todo_slug}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(new_todo),
+        }).then((response) => {
+            if (response.ok) {
+                fetchTasksList();
+            }
+        });
+    };
+
     return (
         <>
             <TodoModal
@@ -80,6 +99,7 @@ const TodoItem = ({
                     <input
                         className="todoItem--checkbox"
                         type="checkbox"
+                        onChange={() => toggleIsComplete(slug, is_complete)}
                         defaultChecked={is_complete}
                     ></input>
                     <div>

@@ -16,7 +16,6 @@ import {
     updateTitleInput,
     updateBodyInput,
     toggleModalDialogForTodo,
-    updateTodo,
 } from '../../store/Todo/actions';
 
 import './style.css';
@@ -37,7 +36,11 @@ class TodoList extends React.Component {
                 const todos = data.reverse();
                 const newTodos = todos.map((todo) => {
                     var new_todo = {};
-                    new_todo = { ...todo, toggle_modal_dialog: false };
+                    new_todo = {
+                        ...todo,
+                        toggle_modal_dialog: false,
+                        toggle_body_show: true,
+                    };
                     return new_todo;
                 });
                 this.props.add_todos(newTodos);
@@ -120,7 +123,6 @@ class TodoList extends React.Component {
                                     this.props.toggle_modal_dialog_for_todo
                                 }
                                 input_fields={this.props.input_fields}
-                                update_todo={this.props.update_todo}
                                 fetchTasksList={this.fetchTasksList}
                             />
                         ))}
@@ -149,7 +151,6 @@ const mapDispatch = {
     update_title_input: updateTitleInput,
     update_body_input: updateBodyInput,
     toggle_modal_dialog_for_todo: toggleModalDialogForTodo,
-    update_todo: updateTodo,
 };
 
 const connector = connect(mapState, mapDispatch);
