@@ -4,6 +4,8 @@ export const DELETE_TODO = 'TODO/DELETE_TODO';
 export const TOGGLE_MODAL_DIALOG = 'TODO/TOGGLE_MODAL_DIALOG';
 export const UPDATE_TITLE_INPUT = 'TODO/UPDATE_TITLE_INPUT';
 export const UPDATE_BODY_INPUT = 'TODO/UPDATE_BODY_INPUT';
+export const TOGGLE_MODAL_DIALOG_FOR_TODO = 'TODO/TOGGLE_MODAL_DIALOG_FOR_TODO';
+export const UPDATE_TODO = 'TODO/UPDATE';
 
 export const addTodos = (todos) => {
     return {
@@ -31,10 +33,28 @@ export const toggleModalDialog = () => {
     };
 };
 
+export const toggleModalDialogForTodo = (slug) => {
+    return {
+        type: TOGGLE_MODAL_DIALOG_FOR_TODO,
+        payload: slug,
+    };
+};
+
 export const updateTitleInput = (text) => {
     return {
         type: UPDATE_TITLE_INPUT,
         payload: text,
+    };
+};
+
+export const updateTodo = (slug, title, body) => {
+    return {
+        type: UPDATE_TODO,
+        payload: {
+            slug: slug,
+            title: title,
+            body: body,
+        },
     };
 };
 

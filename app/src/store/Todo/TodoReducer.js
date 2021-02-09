@@ -5,6 +5,8 @@ import {
     TOGGLE_MODAL_DIALOG,
     UPDATE_TITLE_INPUT,
     UPDATE_BODY_INPUT,
+    TOGGLE_MODAL_DIALOG_FOR_TODO,
+    UPDATE_TODO,
 } from './actions';
 
 const initialState = {
@@ -63,6 +65,37 @@ const todoReducer = (state = initialState, action) => {
                     ...state.inputs,
                     body: action.payload,
                 },
+            };
+        case TOGGLE_MODAL_DIALOG_FOR_TODO:
+            let updatedTodos = [];
+
+            updatedTodos = state.todos.map((todo) => {
+                var updated_todo = { ...todo };
+                if (todo.slug === action.payload) {
+                    updated_todo.toggle_modal_dialog = !updated_todo.toggle_modal_dialog;
+                }
+                return updated_todo;
+            });
+
+            return {
+                ...state,
+                todos: updatedTodos,
+            };
+        case UPDATE_TODO:
+            let updatedTodosInputs = [];
+
+            updatedTodosInputs = state.todos.map((todo) => {
+                var updated_todo = { ...todo };
+                if (todo.slug === action.payload.slug) {
+                    updated_todo.title = action.payload.title;
+                    updated_todo.body = action.payload.body;
+                }
+                return updated_todo;
+            });
+
+            return {
+                ...state,
+                todos: updatedTodosInputs,
             };
         default:
             return state;

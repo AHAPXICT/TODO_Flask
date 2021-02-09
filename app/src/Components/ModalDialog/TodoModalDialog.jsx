@@ -27,11 +27,16 @@ const TodoModal = (props) => {
         props.handleClose();
     };
 
+    const handleClose = () => {
+        clearInputFields();
+        props.handleClose();
+    };
+
     return (
         <div>
             <Dialog
                 open={props.show}
-                onClose={props.handleClose}
+                onClose={handleClose}
                 aria-labelledby="form-dialog-title"
             >
                 <DialogTitle id="form-dialog-title">Todo</DialogTitle>
@@ -72,7 +77,7 @@ const TodoModal = (props) => {
                         color="primary"
                         disabled={!Boolean(props.input_fields.title)}
                     >
-                        Add
+                        {props.buttonText}
                     </Button>
                     <Button
                         onClick={clearInputFields}

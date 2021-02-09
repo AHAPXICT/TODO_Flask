@@ -15,6 +15,8 @@ import {
     toggleModalDialog,
     updateTitleInput,
     updateBodyInput,
+    toggleModalDialogForTodo,
+    updateTodo,
 } from '../../store/Todo/actions';
 
 import './style.css';
@@ -32,7 +34,13 @@ class TodoList extends React.Component {
                 }
             })
             .then((data) => {
-                this.props.add_todos(data.reverse());
+                const todos = data.reverse();
+                const newTodos = todos.map((todo) => {
+                    var new_todo = {};
+                    new_todo = { ...todo, toggle_modal_dialog: false };
+                    return new_todo;
+                });
+                this.props.add_todos(newTodos);
             });
     };
 
@@ -74,7 +82,10 @@ class TodoList extends React.Component {
                             update_title_input={this.props.update_title_input}
                             update_body_input={this.props.update_body_input}
                             addTodo={this.addTodo}
+                            buttonText={'Add'}
                         />
+
+                        <br />
 
                         <Button
                             mode="primary"
@@ -95,6 +106,22 @@ class TodoList extends React.Component {
                                 slug={task.slug}
                                 deleteTodoAction={this.props.deleteTodoAction}
                                 key={task.slug}
+                                toggle_modal_dialog_state={
+                                    task.toggle_modal_dialog
+                                }
+                                handleClose={() =>
+                                    this.props.toggle_modal_dialog_for_todo()
+                                }
+                                update_title_input={
+                                    this.props.update_title_input
+                                }
+                                update_body_input={this.props.update_body_input}
+                                toggle_modal_dialog={
+                                    this.props.toggle_modal_dialog_for_todo
+                                }
+                                input_fields={this.props.input_fields}
+                                update_todo={this.props.update_todo}
+                                fetchTasksList={this.fetchTasksList}
                             />
                         ))}
                     </>
@@ -121,6 +148,8 @@ const mapDispatch = {
     toggle_modal_dialog: toggleModalDialog,
     update_title_input: updateTitleInput,
     update_body_input: updateBodyInput,
+    toggle_modal_dialog_for_todo: toggleModalDialogForTodo,
+    update_todo: updateTodo,
 };
 
 const connector = connect(mapState, mapDispatch);
