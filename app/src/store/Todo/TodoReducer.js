@@ -3,6 +3,8 @@ import {
     SET_SERVER_ERROR_MESSAGE,
     DELETE_TODO,
     TOGGLE_MODAL_DIALOG,
+    UPDATE_TITLE_INPUT,
+    UPDATE_BODY_INPUT,
 } from './actions';
 
 const initialState = {
@@ -45,6 +47,22 @@ const todoReducer = (state = initialState, action) => {
             return {
                 ...state,
                 toggle_modal_dialog: newToggleState,
+            };
+        case UPDATE_TITLE_INPUT:
+            return {
+                ...state,
+                inputs: {
+                    ...state.inputs,
+                    title: action.payload,
+                },
+            };
+        case UPDATE_BODY_INPUT:
+            return {
+                ...state,
+                inputs: {
+                    ...state.inputs,
+                    body: action.payload,
+                },
             };
         default:
             return state;

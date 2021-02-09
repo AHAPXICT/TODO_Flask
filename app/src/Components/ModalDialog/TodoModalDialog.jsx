@@ -8,15 +8,27 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 const TodoModal = (props) => {
+    const changeInputTitle = (event) => {
+        props.update_title_input(event.target.value);
+    };
+
+    const changeInputBody = (event) => {
+        props.update_body_input(event.target.value);
+    };
+
+    const clearInputFields = () => {
+        props.update_title_input('');
+        props.update_body_input('');
+    };
+
+    const addAndClose = (title, body) => {
+        props.addTodo({ title: title, body: body });
+        clearInputFields();
+        props.handleClose();
+    };
+
     return (
         <div>
-            {/* <Button
-                variant="outlined"
-                color="primary"
-                // onClick={handleClickOpen}
-            >
-                Open form dialog
-            </Button> */}
             <Dialog
                 open={props.show}
                 onClose={props.handleClose}
@@ -29,28 +41,48 @@ const TodoModal = (props) => {
                         (optional).
                     </DialogContentText>
                     <TextField
-                        autoFocus
+                        autoFocus={true}
                         margin="dense"
-                        id="name"
                         label="Title"
-                        type="email"
+                        type="text"
                         fullWidth
+                        value={props.input_fields.title}
+                        onChange={changeInputTitle}
                     />
                     <TextField
-                        autoFocus
                         margin="dense"
-                        // id="name"
                         label="Body"
-                        type="email"
+                        type="text"
                         fullWidth
+                        value={props.input_fields.body}
+                        onChange={changeInputBody}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={props.handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={props.handleClose} color="primary">
+                    <Button
+                        onClick={() =>
+                            addAndClose(
+                                props.input_fields.title,
+                                props.input_fields.body
+                            )
+                        }
+                        color="primary"
+                        disabled={!Boolean(props.input_fields.title)}
+                    >
                         Add
+                    </Button>
+                    <Button
+                        onClick={clearInputFields}
+                        disabled={
+                            !Boolean(props.input_fields.title) &&
+                            !Boolean(props.input_fields.body)
+                        }
+                        color="primary"
+                    >
+                        Clear
                     </Button>
                 </DialogActions>
             </Dialog>
